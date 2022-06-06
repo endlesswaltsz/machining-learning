@@ -1,5 +1,6 @@
 from ast import main
 import csv
+import time
 from lib2to3.pytree import LeafPattern
 import numpy as np
 import configparser
@@ -87,7 +88,7 @@ def main():
                       house_age_rate,
                       distance_to_nearest_market_rate,
                       number_of_convenience_store) for i in data])
-      print(f'Variance:{loss_result}')
+      # print(f'Variance:{loss_result}')
       if not loss:
         loss = loss_result
       else:
@@ -97,6 +98,9 @@ def main():
           learning_rate -= step
           write_config(learning_rate, house_age_rate, distance_to_nearest_market_rate, number_of_convenience_store, const_rate)
         else:
+          if int(time.time())%100 == 0:
+            write_config(learning_rate, house_age_rate, distance_to_nearest_market_rate, number_of_convenience_store, const_rate)
+            print(house_age_rate, distance_to_nearest_market_rate, number_of_convenience_store, const_rate)
           #update params
           const_rate = const_rate - learning_rate * (1/400) * sum(
             [gradient(float(i['X2 house age']),
